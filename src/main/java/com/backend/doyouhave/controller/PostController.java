@@ -60,20 +60,15 @@ public class PostController {
 
     @PostMapping("/posts/{postId}/edit")
     @ApiOperation(value = "전단지 수정 API", notes = "전단지를 수정한다.")
-    public ResponseEntity<Result> updatePost(
+    public ResponseEntity<SingleResult<PostResponseDto>> updatePost(
             @PathVariable Long postId,
             @RequestPart PostUpdateRequestDto postUpdateRequestDto,
             @RequestPart MultipartFile updateImage,
             @RequestPart MultipartFile updateImageSecond) throws IOException {
-        // 수정된 정보들을 받아 수정 처리
+
         Post updatedPost = postService.updatePost(postId, postUpdateRequestDto, updateImage, updateImageSecond);
 
-        URI uri = UriComponentsBuilder.fromUriString("http://localhost:8080")
-                .path("/api/users/posts/{postId}")
-                .buildAndExpand(postId)
-                .toUri();
-
-        return ResponseEntity.created(uri).body(responseService.getSingleResult(updatedPost.getId()));
+        return ResponseEntity.ok(responseService.getSingleResult(new PostResponseDto(updatedPost.getId())));
     }
 
     @DeleteMapping("/posts/{postId}")

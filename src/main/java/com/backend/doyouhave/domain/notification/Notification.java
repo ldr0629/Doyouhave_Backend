@@ -1,5 +1,7 @@
 package com.backend.doyouhave.domain.notification;
 
+import com.backend.doyouhave.domain.comment.Comment;
+import com.backend.doyouhave.domain.post.Post;
 import com.backend.doyouhave.domain.user.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,9 +32,18 @@ public class Notification{
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void create(String postTitle, String commentContent) {
-        this.postTitle = postTitle;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    public void create(Post savedPost, String commentContent) {
+        this.postTitle = savedPost.getTitle();
         this.commentContent = commentContent;
         this.notifiedDate = LocalDateTime.now();
+        this.user = savedPost.getUser();
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 }

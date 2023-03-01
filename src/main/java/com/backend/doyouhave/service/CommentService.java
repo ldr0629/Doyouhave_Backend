@@ -39,11 +39,13 @@ public class CommentService {
      */
     public Long save(CommentRequestDto commentRequestDto, Long userId, Long postId) {
 
-        // 알림 로직
-        setNotification(postId, commentRequestDto);
+        Comment newComment = commentRequestDto.toEntity(userRepository.findById(userId).orElseThrow(NotFoundException::new),
+                postRepository.findById(postId).orElseThrow(NotFoundException::new));
 
-        return commentRepository.save(commentRequestDto.toEntity(userRepository.findById(userId).orElseThrow(NotFoundException::new),
-                postRepository.findById(postId).orElseThrow(NotFoundException::new))).getId();
+        // 알림 로직
+        setNotification(postId, newComment);
+
+        return commentRepository.save(newComment).getId();
     }
 
     /*
@@ -154,11 +156,15 @@ public class CommentService {
     /*
      * 알림 추가 로직
      */
-    private void setNotification(Long postId, CommentRequestDto commentRequestDto) {
+    private void setNotification(Long postId, Comment newComment) {
         Notification notification = new Notification();
-        notification.create(postRepository.findById(postId).orElseThrow(NotFoundException::new).getTitle(), commentRequestDto.getContent());
-        postRepository.findById(postId).orElseThrow(NotFoundException::new).getUser().setNotification(notification);
+        // 양방향 연관관계 설정을 위한 로직 추가 (알림 조회 API에서 postId 반환시 필요)
+        Post savedPost = postRepository.findById(postId).orElseThrow(NotFoundException::new);
+        notification.create(savedPost, newComment.getContent());
+        notification.setComment(newComment);
+        savedPost.getUser().setNotification(notification);
+
         notificationRepository.save(notification);
-        userRepository.save(postRepository.findById(postId).orElseThrow(NotFoundException::new).getUser());
+        userRepository.save(savedPost.getUser());
     }
 }

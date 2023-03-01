@@ -1,6 +1,7 @@
 package com.backend.doyouhave.domain.comment;
 
 import com.backend.doyouhave.domain.BaseTimeEntity;
+import com.backend.doyouhave.domain.notification.Notification;
 import com.backend.doyouhave.domain.post.Post;
 import com.backend.doyouhave.domain.user.User;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,9 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne(mappedBy = "comment")
+    private Notification notification;
 
     @Column
     private boolean isRemoved = false;

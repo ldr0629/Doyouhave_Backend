@@ -34,8 +34,9 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String contactWay;
 
-    @Column(nullable = false)
-    private String contactUrl;
+    private String kakaoUrl;
+
+    private String email;
 
     @Column(nullable = false)
     private String category;
@@ -64,11 +65,12 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<UserLikes> userLikes = new ArrayList<>();
 
-    public void create(String title, String content, String contactWay, String contactUrl, String category, String tags) {
+    public void create(String title, String content, String contactWay, String kakaoUrl, String email, String category, String tags) {
         this.title = title;
         this.content = content;
         this.contactWay = contactWay;
-        this.contactUrl = contactUrl;
+        this.kakaoUrl = kakaoUrl;
+        this.email = email;
         this.category = category;
         this.tags = tags;
         this.viewCount = 0; // 전단지 첫 생성시 조회수 0으로 초기화, 상세정보 클릭시 카운팅
@@ -80,7 +82,8 @@ public class Post extends BaseTimeEntity {
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.contactWay = entity.getContactWay();
-        this.contactUrl = entity.getContactUrl();
+        this.kakaoUrl = entity.getKakaoUrl();
+        this.email = entity.getEmail();
         this.category = entity.getCategoryKeyword();
         this.tags = entity.getTags();
     }

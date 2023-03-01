@@ -15,12 +15,13 @@ public class PostUpdateRequestDto {
     @ApiModelProperty(value = "내용")
     @NotNull
     private String content;
-    @ApiModelProperty(value = "카카오톡")
+    @ApiModelProperty(value = "KAKAO")
     @NotNull
     private String contactWay;
     @ApiModelProperty(value = "http://open.kakao.com/o/sDMnCBS")
-    @NotNull
-    private String contactUrl;
+    private String kakaoUrl;
+    @ApiModelProperty(value = "abcd@naver.com")
+    private String email;
     @ApiModelProperty(value = "의류")
     @NotNull
     private String categoryKeyword;

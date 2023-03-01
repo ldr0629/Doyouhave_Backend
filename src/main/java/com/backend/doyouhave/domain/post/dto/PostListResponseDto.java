@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 public class PostListResponseDto {
+    @ApiParam(value = "글 아이디", required = true, example = "1")
+    private Long postId;
     @ApiParam(value = "글 제목", required = true, example = "Spring")
     private String title;
     @ApiParam(value = "글 카테고리", required = true, example = "STUDY")
@@ -25,10 +27,10 @@ public class PostListResponseDto {
     private String imgUrl;
 
     public PostListResponseDto(Post entity) {
+        this.postId = entity.getId();
         this.title = entity.getTitle();
         this.categoryKeyword = entity.getCategory();
-        List<String> entityTags = Arrays.stream(entity.getTags().split(",")).toList();
-        this.tags = entityTags;
+        this.tags = Arrays.stream(entity.getTags().split(",")).toList();;
         this.imgUrl = entity.getImg();
     }
 }

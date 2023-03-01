@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 public class NotificationResponseDto {
+    @ApiModelProperty(value = "1")
+    private Long postId;
     @ApiModelProperty(value = "2")
     private Long notificationId;
     @ApiModelProperty(value = "글 제목")
@@ -19,6 +21,7 @@ public class NotificationResponseDto {
     private String notifiedDate;
 
     public NotificationResponseDto(Notification notification) {
+        this.postId = notification.getComment().getPost().getId();
         this.notificationId = notification.getId();
         this.postTitle = notification.getPostTitle();
         this.commentContent = notification.getCommentContent();

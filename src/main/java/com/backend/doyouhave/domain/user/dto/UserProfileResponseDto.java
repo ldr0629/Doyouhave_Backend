@@ -32,13 +32,26 @@ public class UserProfileResponseDto {
     @NotBlank
     private String socialType;
 
+    @ApiModelProperty(value = "전단지 작성 개수")
+    private long postCount;
+
+    @ApiModelProperty(value = "댓글 작성 개수")
+    private long commentCount;
+
+    @ApiModelProperty(value = "북마크 개수")
+    private long  bookmarkCount;
+
     @Builder
-    public UserProfileResponseDto(Long userId, String email, String img, String nickname, String socialType) {
+    public UserProfileResponseDto(Long userId, String email, String img, String nickname, String socialType,
+                                  long postCount, long commentCount, long bookmarkCount) {
         this.userId = userId;
         this.email = email;
         this.img = img;
         this.nickname = nickname;
         this.socialType = socialType;
+        this.postCount = postCount;
+        this.commentCount = commentCount;
+        this.bookmarkCount = bookmarkCount;
     }
 
     public static UserProfileResponseDto from(User user) {
@@ -48,6 +61,9 @@ public class UserProfileResponseDto {
                 .img(user.getImg())
                 .nickname(user.getNickname())
                 .socialType(user.getRole().getValue())
+                .postCount(user.getPosts().size())
+                .commentCount(user.getComments().size())
+                .bookmarkCount(user.getUserLikes().size())
                 .build();
     }
 }

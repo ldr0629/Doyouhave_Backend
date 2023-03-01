@@ -62,15 +62,12 @@ public class CommentController {
 
         commentService.delete(commentId);
 
-        URI uri = UriComponentsBuilder.fromUriString("http://localhost:8080")
-                .path("/posts/{postId}").buildAndExpand(postId).toUri();
-
-        return ResponseEntity.created(uri).body(responseService.getSingleResult(new PostResponseDto(postId)));
+        return ResponseEntity.ok(responseService.getSingleResult(new PostResponseDto(postId)));
     }
 
     /* 내가 쓴 댓글 API */
-    @GetMapping("/myInfo/comment")
-    @ApiOperation(value = "내가 쓴 댓글", notes = "내가 쓴 댓글 목록 출력", response = MyInfoCommentResponseDto.class)
+    @GetMapping("/mypage/comments")
+    @ApiOperation(value = "내가 쓴 댓글 목록", notes = "내가 쓴 댓글 목록 출력", response = MyInfoCommentResponseDto.class)
     public ResponseEntity<?> myComments(@AuthenticationPrincipal Long userId, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         return ResponseEntity.ok(commentService.findByUser(userId, pageable));

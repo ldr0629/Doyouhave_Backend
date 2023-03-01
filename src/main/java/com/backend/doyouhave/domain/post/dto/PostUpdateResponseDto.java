@@ -18,10 +18,12 @@ public class PostUpdateResponseDto {
     private String title;
     @ApiModelProperty(value = "테스트")
     private String content;
-    @ApiModelProperty(value = "Google Form")
+    @ApiModelProperty(value = "COMMENT,KAKAO")
     private String contactWay;
     @ApiModelProperty(value = "http://open.kakao.com/o/sDMnCBS")
-    private String contactUrl;
+    private String kakaoUrl;
+    @ApiModelProperty(value = "abcd@naver.com")
+    private String email;
     @ApiModelProperty(value = "MEDICAL")
     private String categoryKeyword;
     @ApiModelProperty(value = "['test1', 'test2', 'test3']")
@@ -36,10 +38,10 @@ public class PostUpdateResponseDto {
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.contactWay = entity.getContactWay();
-        this.contactUrl = entity.getContactUrl();
+        this.kakaoUrl = entity.getKakaoUrl();
+        this.email = entity.getEmail();
         this.categoryKeyword = entity.getCategory();
-        List<String> entityTags = Arrays.stream(entity.getTags().split(",")).toList();
-        this.tags = entityTags;
+        this.tags = Arrays.stream(entity.getTags().split(",")).toList();
         this.img = entity.getImg();
         this.imgSecond = entity.getImgSecond();
     }

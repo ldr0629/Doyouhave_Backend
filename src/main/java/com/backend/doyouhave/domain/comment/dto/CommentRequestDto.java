@@ -8,8 +8,10 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @Schema(description = "CommentRequestDTO")
 @ApiModel(description = "CommentRequestDTO")
 public class CommentRequestDto {
@@ -25,7 +27,6 @@ public class CommentRequestDto {
     @ApiModelProperty(value = "비밀 댓글 여부", required = true)
     @Schema(description = "비밀 댓글 여부", required = true)
     private boolean isSecret;
-
 
     @Builder
     public CommentRequestDto(String content, boolean isSecret) {

@@ -49,10 +49,7 @@ public class CommentController {
                                                       @RequestBody CommentRequestDto commentRequestDto) {
         commentService.update(commentId, commentRequestDto);
 
-        URI uri = UriComponentsBuilder.fromUriString("http://localhost:8080")
-                .path("/posts/{postId}").buildAndExpand(postId).toUri();
-
-        return ResponseEntity.created(uri).body(responseService.getSingleResult(new PostResponseDto(postId)));
+        return ResponseEntity.ok(responseService.getSingleResult(new PostResponseDto(postId)));
     }
 
     /* 댓글 삭제 API */

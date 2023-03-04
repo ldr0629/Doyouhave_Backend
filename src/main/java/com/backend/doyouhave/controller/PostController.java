@@ -32,14 +32,14 @@ public class PostController {
     @PostMapping(value = "/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "전단지 등록 API", notes = "전단지를 등록한다. (사진 최대 2개 선택, 태그 최대 3개 입력)")
     public ResponseEntity<SingleResult<PostResponseDto>> savePost(
-            @AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : #this") Long userId,
+//  소셜 로그인 사용 시 주석 제거          @AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : #this") Long userId,
             @RequestPart PostRequestDto postRequestDto,
             @Parameter(description = "multipart/form-data 형식의 이미지를 input 최대 2개로 입력받습니다.")
             @RequestPart(required = false) MultipartFile imageFile,
             @RequestPart(required = false) MultipartFile imageFileSecond) throws IOException {
 
         Post post = postRequestDto.toEntity();
-        Long savedPostId = postService.savePost(userId, post, imageFile, imageFileSecond);
+        Long savedPostId = postService.savePost(1L, post, imageFile, imageFileSecond); // 1L -> userId
 
         // 등록 후 작성한 페이지로 이동
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()

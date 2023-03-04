@@ -1,11 +1,11 @@
 package com.backend.doyouhave.config;
 
-import com.backend.doyouhave.domain.user.Role;
 import com.backend.doyouhave.exception.ExceptionCode;
 import com.backend.doyouhave.exception.ExceptionResponse;
 import com.backend.doyouhave.jwt.JwtAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,9 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -56,7 +56,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .cors().and()
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -100,13 +101,19 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "Access-Control-Request-Headers", "Access-Control-Request-Method", "X-Requested-With", "Origin", "Accept"));
-        configuration.setAllowedMethods(Arrays.asList("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"));
         configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://doyouhave-test.netlify.app", "https://doyouhave.netlify.app"));
+        configuration.setAllowedMethods(Arrays.asList(HttpMethod.HEAD.name(), HttpMethod.OPTIONS.name(),
+                                                    HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
+                                                    HttpMethod.PATCH.name(), HttpMethod.DELETE.name()));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+
+        bean.setOrder(0);
         return source;
     }
 }

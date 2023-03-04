@@ -3,8 +3,10 @@ package com.backend.doyouhave.controller;
 import com.backend.doyouhave.domain.main.MainInfoDto;
 import com.backend.doyouhave.domain.post.Post;
 import com.backend.doyouhave.domain.post.dto.PostListResponseDto;
+import com.backend.doyouhave.domain.user.User;
 import com.backend.doyouhave.service.PostFilterService;
 import com.backend.doyouhave.service.PostService;
+import com.backend.doyouhave.service.UserService;
 import com.backend.doyouhave.service.result.MultiplePageResult;
 import com.backend.doyouhave.service.result.MultipleResult;
 import com.backend.doyouhave.service.result.ResponseService;
@@ -32,10 +34,11 @@ public class MainController {
     private final PostService postService;
     private final PostFilterService postFilterService;
     private final ResponseService responseService;
+    private final UserService userService; // 소셜 로그인 재설정 시 삭제 필요
 
     @GetMapping
     public ResponseEntity<SingleResult<MainInfoDto>> countOfPost() {
-
+        userService.saveUserForTest(User.createTestUser("123", "doyouhave@gmail.com", "", "doyouhave")); // 소셜 로그인 재설정 시 삭제 필요
         Map<String, Integer> countPost = postService.findCountPost();
 
         return ResponseEntity.ok(responseService.getSingleResult(new MainInfoDto(countPost.get("allCount"), countPost.get("todayCount"))));

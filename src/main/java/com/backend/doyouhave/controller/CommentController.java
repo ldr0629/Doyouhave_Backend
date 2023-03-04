@@ -35,9 +35,9 @@ public class CommentController {
     @PostMapping("/posts/{postId}")
     @ApiOperation(value = "댓글 생성")
     public ResponseEntity<SingleResult<PostResponseDto>> saveComment(@PathVariable("postId") Long postId,
-                                                                     @AuthenticationPrincipal Long userId,
+//  소셜 로그인 사용 시 주석 제거                                                                   @AuthenticationPrincipal Long userId,
                                                     @RequestBody CommentRequestDto commentRequestDto) {
-        commentService.save(commentRequestDto, userId, postId);
+        commentService.save(commentRequestDto, 1L, postId); // 1L -> userId 변경
 
         return ResponseEntity.ok(responseService.getSingleResult(new PostResponseDto(postId)));
     }

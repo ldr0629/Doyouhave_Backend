@@ -125,9 +125,4 @@ public class UserService {
     public Page<UserInfoDto> findUsersInfo(Pageable pageable) {
         return userRepository.findAll(pageable).map(UserInfoDto::new);
     }
-
-    // 소셜 로그인 없이 api 테스트 하기 위해 작성한 메소드
-    public void saveUserForTest(User user) {
-        userRepository.save(user);
-    }
 }

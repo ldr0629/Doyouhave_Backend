@@ -42,8 +42,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring().mvcMatchers(
-//                "/",
-                "/**", // 소셜 로그인 재설정 시 삭제 필요
+                "/",
                 "/v3/api-docs/**",
                 "/swagger-ui/**",
                 "/swagger-resources/**",
@@ -64,8 +63,7 @@ public class SecurityConfig {
                 .and()
 
                 .authorizeRequests()
-//               .antMatchers("/swagger-resources/**", "/", "/api/users", "/api/users/list", "/api/users/list/top").permitAll()
-                .antMatchers("/swagger-resources/**", "/**", "/api/users", "/api/users/list", "/api/users/list/top").permitAll()
+               .antMatchers("/swagger-resources/**", "/", "/api/users", "/api/users/list", "/api/users/list/top").permitAll()
                 .anyRequest().authenticated()
                 .and()
 

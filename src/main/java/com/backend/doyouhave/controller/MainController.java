@@ -38,7 +38,6 @@ public class MainController {
 
     @GetMapping
     public ResponseEntity<SingleResult<MainInfoDto>> countOfPost() {
-        userService.saveUserForTest(User.createTestUser("123", "doyouhave@gmail.com", "", "doyouhave")); // 소셜 로그인 재설정 시 삭제 필요
         Map<String, Integer> countPost = postService.findCountPost();
 
         return ResponseEntity.ok(responseService.getSingleResult(new MainInfoDto(countPost.get("allCount"), countPost.get("todayCount"))));

@@ -95,16 +95,4 @@ public class User extends BaseTimeEntity {
                 .userState(UserState.NORMAL)
                 .build();
     }
-
-    // 소셜 로그인 없이 api 테스트 하기 위해 작성한 메소드
-    public static User createTestUser(String socialId, String email, String img, String nickname) {
-        return User.builder()
-                .socialId(socialId)
-                .email(email)
-                .img(img)
-                .nickname(nickname)
-                .role(Role.KAKAO)
-                .userState(UserState.NORMAL)
-                .build();
-    }
 }

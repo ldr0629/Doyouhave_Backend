@@ -18,8 +18,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByCategoryOrTagsContaining(@Param("keyword") String keyword, @Param("tag") String tag, Pageable pageable);
 
     /* 전단지 검색 조회 */
+    @Query(value = "select * from Post p where (category = :keyword and tags like %:tag%) and (title like %:search% or content like %:search% or tags like %:search%)", nativeQuery = true)
+    Page<Post> findBySearchCategoryAndTag(@Param("keyword") String keyword, @Param("tag") String postTag, @Param("search") String title, @Param("search") String content, @Param("search") String tag, Pageable pageable);
     @Query(value = "select * from Post p where category = :keyword and (title like %:search% or content like %:search% or tags like %:search%)", nativeQuery = true)
-    Page<Post> findByCategoryAndSearch(@Param("keyword") String keyword, @Param("search") String title, @Param("search") String content, @Param("search") String tag, Pageable pageable);
+    Page<Post> findBySearchCategory(@Param("keyword") String keyword, @Param("search") String title, @Param("search") String content, @Param("search") String tag, Pageable pageable);
+    @Query(value = "select * from Post p where tags like %:tag% and (title like %:search% or content like %:search% or tags like %:search%)", nativeQuery = true)
+    Page<Post> findBySearchTag(@Param("tag") String postTag, @Param("search") String title, @Param("search") String content, @Param("search") String tag, Pageable pageable);
     @Query(value = "select * from Post p where title like %:search% or content like %:search% or tags like %:search%", nativeQuery = true)
     Page<Post> findBySearch(@Param("search") String title, @Param("search") String content, @Param("search") String tag, Pageable pageable);
 

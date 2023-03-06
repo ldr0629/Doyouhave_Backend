@@ -43,11 +43,11 @@ public class PostFilterService {
         Page<PostListResponseDto> postResultList = null;
         try {
             PageRequest request
-                    = sort == null || sort.equals("DATE") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "createdDate"))
-                    : sort.equals("VIEW") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "viewCount"))
-                    : sort.equals("COMMENT") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "commentNum")) : null;
+                    = sort == null || sort.equals("DATE") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "created_date"))
+                    : sort.equals("VIEW") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "view_count"))
+                    : sort.equals("COMMENT") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "comment_num")) : null;
 
-            postResultList = postRepository.findByCategoryAndTitleContainingOrContentContaining(category, search, search, request).map(PostListResponseDto::new);
+            postResultList = postRepository.findByCategoryAndSearch(category, search, search, search, request).map(PostListResponseDto::new);
         } catch (NoSuchFieldError e) {
             e.printStackTrace();
         }

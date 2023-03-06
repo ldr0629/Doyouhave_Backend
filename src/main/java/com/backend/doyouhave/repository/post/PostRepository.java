@@ -18,7 +18,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findByCategoryOrTagsContaining(@Param("keyword") String keyword, @Param("tag") String tag, Pageable pageable);
 
     /* 전단지 검색 조회 */
-    Page<Post> findByCategoryAndTitleContainingOrContentContaining(@Param("keyword") String keyword, @Param("search") String title, @Param("search") String content, Pageable pageable);
+    @Query(value = "select * from Post p where category = :keyword and (title like %:search% or content like %:search% or tags like %:search%)", nativeQuery = true)
+    Page<Post> findByCategoryAndSearch(@Param("keyword") String keyword, @Param("search") String title, @Param("search") String content, @Param("search") String tag, Pageable pageable);
 
     Page<Post> findByUserId(@Param("userId") Long userId, Pageable pageable);
 

@@ -39,7 +39,7 @@ public class PostFilterService {
     }
 
     /* 제목 기준 전단지 검색용 */
-    public Page<PostListResponseDto> findPostByCategoryAndSearch(String category, String search, String sort, Pageable pageable) {
+    public Page<PostListResponseDto> findPostByCategoryAndSearch(String category, String tag, String search, String sort, Pageable pageable) {
         Page<PostListResponseDto> postResultList = null;
         try {
             PageRequest request
@@ -47,8 +47,14 @@ public class PostFilterService {
                     : sort.equals("VIEW") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "view_count"))
                     : sort.equals("COMMENT") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "comment_num")) : null;
 
-            postResultList = category == null ? postRepository.findBySearch(search, search, search, request).map(PostListResponseDto::new)
-                            : postRepository.findByCategoryAndSearch(category, search, search, search, request).map(PostListResponseDto::new);
+            if(category == null && tag == null) {
+                postResultList = postRepository.findBySearch(search, search, search, request).map(PostListResponseDto::new);
+            } else if(category != null && tag != null) {
+                postResultList = postRepository.findBySearchCategoryAndTag(category, tag, search, search, search, request).map(PostListResponseDto::new);
+            } else {
+                postResultList = category != null ? postRepository.findBySearchCategory(category, search, search, search, request).map(PostListResponseDto::new)
+                : postRepository.findBySearchTag(tag, search, search, search, request).map(PostListResponseDto::new);
+            }
         } catch (NoSuchFieldError e) {
             e.printStackTrace();
         }

@@ -60,7 +60,7 @@ public class MainController {
 
         // 검색했을 때와 검색하지 않았을 때를 구분
         Page<PostListResponseDto> response = search == null ? postFilterService.findPostByCategoryOrTags(category, tag, sort, pageable) :
-                                                                postFilterService.findPostByCategoryAndSearch(category, search, sort, pageable);
+                                                                postFilterService.findPostByCategoryAndSearch(category, tag, search, sort, pageable);
         return ResponseEntity.ok(responseService.getMultiplePageResult(response));
     }
 

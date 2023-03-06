@@ -47,7 +47,8 @@ public class PostFilterService {
                     : sort.equals("VIEW") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "view_count"))
                     : sort.equals("COMMENT") ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "comment_num")) : null;
 
-            postResultList = postRepository.findByCategoryAndSearch(category, search, search, search, request).map(PostListResponseDto::new);
+            postResultList = category == null ? postRepository.findBySearch(search, search, search, request).map(PostListResponseDto::new)
+                            : postRepository.findByCategoryAndSearch(category, search, search, search, request).map(PostListResponseDto::new);
         } catch (NoSuchFieldError e) {
             e.printStackTrace();
         }

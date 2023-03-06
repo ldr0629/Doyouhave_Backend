@@ -63,8 +63,8 @@ public class PostController {
     public ResponseEntity<SingleResult<PostResponseDto>> updatePost(
             @PathVariable Long postId,
             @RequestPart PostUpdateRequestDto postUpdateRequestDto,
-            @RequestPart MultipartFile updateImage,
-            @RequestPart MultipartFile updateImageSecond) throws IOException {
+            @RequestPart(required = false) MultipartFile updateImage,
+            @RequestPart(required = false) MultipartFile updateImageSecond) throws IOException {
 
         Post updatedPost = postService.updatePost(postId, postUpdateRequestDto, updateImage, updateImageSecond);
 

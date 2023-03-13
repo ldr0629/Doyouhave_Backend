@@ -167,4 +167,11 @@ public class CommentService {
         notificationRepository.save(notification);
         userRepository.save(savedPost.getUser());
     }
+
+    public void reportedComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundException::new);
+        comment.setReportedCount(comment.getReportedCount() + 1);
+
+        commentRepository.save(comment);
+    }
 }

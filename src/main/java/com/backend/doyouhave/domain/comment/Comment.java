@@ -43,12 +43,16 @@ public class Comment extends BaseTimeEntity {
     @Column
     private boolean isSecret = false;
 
+    @Column
+    private long reportedCount;
+
     public void  create(User user, Post post, String content, Long parentId, boolean isSecret) {
         this.user = user;
         this.post = post;
         this.content = content;
         this.parentId = parentId;
         this.isSecret = isSecret;
+        this.reportedCount = 0;
     }
 
     public void update(String content) {
@@ -69,5 +73,9 @@ public class Comment extends BaseTimeEntity {
         post.getCommentList().add(this);
         post.setCommentNum(post.getCommentList().size() + 1);
         this.post = post;
+    }
+
+    public void setReportedCount(long count) {
+        this.reportedCount = count;
     }
 }

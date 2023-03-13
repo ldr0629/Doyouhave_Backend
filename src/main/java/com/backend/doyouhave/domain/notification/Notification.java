@@ -36,14 +36,19 @@ public class Notification{
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
-    public void create(Post savedPost, String commentContent) {
-        this.postTitle = savedPost.getTitle();
+    public void create(String title, String commentContent) {
+        this.postTitle = title;
         this.commentContent = commentContent;
         this.notifiedDate = LocalDateTime.now();
-        this.user = savedPost.getUser();
     }
 
     public void setComment(Comment comment) {
         this.comment = comment;
     }
+
+    public void setUser(User user) {
+        user.getNotifications().add(this);
+        this.user = user;
+    }
+
 }

@@ -67,9 +67,6 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Notification> notifications = new ArrayList<>();
-    public void setNotification(Notification notification) {
-        this.notifications.add(notification);
-    }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserLikes> userLikes = new ArrayList<>();

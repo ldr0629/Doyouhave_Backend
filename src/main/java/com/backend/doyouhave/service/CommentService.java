@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -160,12 +161,17 @@ public class CommentService {
         Notification notification = new Notification();
         // 양방향 연관관계 설정을 위한 로직 추가 (알림 조회 API에서 postId 반환시 필요)
         Post savedPost = postRepository.findById(postId).orElseThrow(NotFoundException::new);
-        notification.create(savedPost, newComment.getContent());
+
+        LocalDateTime originDate = savedPost.getCreatedDate();
+        notification.create(savedPost.getTitle(), newComment.getContent());
+        notification.setUser(savedPost.getUser());
         notification.setComment(newComment);
-        savedPost.getUser().setNotification(notification);
 
         notificationRepository.save(notification);
+        savedPost.setCreatedDate(originDate);
+
         userRepository.save(savedPost.getUser());
+
     }
 
     public void reportedComment(Long commentId) {

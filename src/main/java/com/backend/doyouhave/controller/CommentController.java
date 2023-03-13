@@ -7,6 +7,7 @@ import com.backend.doyouhave.domain.comment.dto.MyInfoCommentResponseDto;
 import com.backend.doyouhave.domain.post.dto.PostResponseDto;
 import com.backend.doyouhave.service.CommentService;
 import com.backend.doyouhave.service.result.ResponseService;
+import com.backend.doyouhave.service.result.Result;
 import com.backend.doyouhave.service.result.SingleResult;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class CommentController {
     @ApiOperation(value = "댓글 생성")
     public ResponseEntity<SingleResult<PostResponseDto>> saveComment(@PathVariable("postId") Long postId,
                                                                      @AuthenticationPrincipal Long userId,
-                                                    @RequestBody CommentRequestDto commentRequestDto) {
+                                                                     @RequestBody CommentRequestDto commentRequestDto) {
         commentService.save(commentRequestDto, userId, postId);
 
         return ResponseEntity.ok(responseService.getSingleResult(new PostResponseDto(postId)));
@@ -81,5 +82,13 @@ public class CommentController {
         boolean isWriter = commentService.checkUserIsWriter(postId, userId);
         Page<CommentInfoDto> commentsByPost = commentService.getCommentsByPost(postId, userId, pageable);
         return ResponseEntity.ok(responseService.getSingleResult(CommentResponseDto.from(isWriter, commentsByPost)));
+    }
+
+    /* 댓글 신고 처리 API */
+    @PostMapping("/comments/{commentId}/report")
+    @ApiOperation(value = "댓글 신고 처리")
+    public ResponseEntity<Result> reportComment(@PathVariable Long commentId) {
+        commentService.reportedComment(commentId);
+        return ResponseEntity.ok(responseService.getSuccessResult());
     }
 }

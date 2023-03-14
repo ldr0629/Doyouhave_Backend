@@ -47,7 +47,6 @@ public class Comment extends BaseTimeEntity {
     @Column
     private boolean isSecret = false;
 
-    @Column
     private long reportedCount;
 
     public void  create(User user, Post post, String content, Long parentId, boolean isSecret) {

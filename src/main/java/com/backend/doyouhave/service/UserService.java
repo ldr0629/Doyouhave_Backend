@@ -41,29 +41,26 @@ public class UserService {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public LoginResponseDto signup(Role role, String code, String state) {
-        if (role.equals(Role.KAKAO)) {
-            String accessToken = authService.getKakaoAccessTokenByCode(code);
-            Optional<User> kakaoUser = authService.saveUserInfoByKakaoToken(accessToken);
-            Optional<User> existUser = userRepository.findByRoleAndSocialId(Role.KAKAO, kakaoUser.get().getSocialId());
-            if(!existUser.isEmpty()){
-                return login(existUser.get());
-            }
-            userRepository.save(kakaoUser.get());
-            return login(kakaoUser.get());
+    public LoginResponseDto kakaoSignup(String code, String redirectUrl) {
+        String accessToken = authService.getKakaoAccessTokenByCode(code, redirectUrl);
+        Optional<User> kakaoUser = authService.saveUserInfoByKakaoToken(accessToken);
+        Optional<User> existUser = userRepository.findByRoleAndSocialId(Role.KAKAO, kakaoUser.get().getSocialId());
 
-        } else if (role.equals(Role.NAVER)) {
-            String accessToken = authService.getNaverAccessTokenByCode(code, state);
-            Optional<User> naverUser = authService.saveUserInfoByNaverToken(accessToken);
-            Optional<User> existUser = userRepository.findByRoleAndSocialId(Role.NAVER, naverUser.get().getSocialId());
-            if(!existUser.isEmpty()){
-                return login(existUser.get());
-            }
-            userRepository.save(naverUser.get());
-            return login(naverUser.get());
-        }
+        if(!existUser.isEmpty()) return login(existUser.get());
 
-        return null;
+        userRepository.save(kakaoUser.get());
+        return login(kakaoUser.get());
+    }
+
+    public LoginResponseDto naverSignup(String code, String state) {
+        String accessToken = authService.getNaverAccessTokenByCode(code, state);
+        Optional<User> naverUser = authService.saveUserInfoByNaverToken(accessToken);
+        Optional<User> existUser = userRepository.findByRoleAndSocialId(Role.NAVER, naverUser.get().getSocialId());
+
+        if(!existUser.isEmpty()) return login(existUser.get());
+
+        userRepository.save(naverUser.get());
+        return login(naverUser.get());
     }
 
     public LoginResponseDto login(User user) {

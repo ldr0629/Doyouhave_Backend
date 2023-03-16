@@ -35,9 +35,6 @@ public class AuthService {
     @Value("${auth.kakao.key}")
     private String authKakaoKey;
 
-    @Value("${auth.kakao.redirecturl}")
-    private String authKakaoRedirectUrl;
-
     @Value("${auth.naver.clientId}")
     private String authNaverClientId;
 
@@ -48,7 +45,7 @@ public class AuthService {
     private String authNaverRedirectUrl;
 
 
-    public String getKakaoAccessTokenByCode(String code) {
+    public String getKakaoAccessTokenByCode(String code, String authKakaoRedirectUrl) {
         String accessToken = "";
         try{
             HttpHeaders headers = new HttpHeaders();
@@ -200,7 +197,7 @@ public class AuthService {
     }
 
     public void updateRefreshToken(Long userId, String refreshToken) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException());
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         user.setRefreshToken(refreshToken);
         userRepository.save(user);
     }

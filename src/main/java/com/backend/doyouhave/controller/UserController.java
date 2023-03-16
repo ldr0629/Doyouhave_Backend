@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/kakao-login")
     @ApiOperation(value = "카카오 로그인 API", response = UserProfileResponseDto.class)
     public LoginResponseDto kakaoLoginUser(@RequestBody @Valid KakaoLoginRequestDto request) {
-        return userService.signup(Role.KAKAO, request.getCode(), null);
+        return userService.kakaoSignup(request.getCode(), request.getRedirectUrl());
 
     }
 
@@ -46,7 +46,7 @@ public class UserController {
     @PostMapping("/naver-login")
     @ApiOperation(value = "네이버 로그인 API", response = UserProfileResponseDto.class)
     public LoginResponseDto naverLoginUser(@RequestBody @Valid NaverLoginRequestDto request) {
-        return userService.signup(Role.NAVER, request.getCode(), request.getState());
+        return userService.naverSignup(request.getCode(), request.getState());
 
     }
 

@@ -13,4 +13,8 @@ public class KakaoLoginRequestDto {
     @ApiModelProperty(value = "카카오 서버 토큰")
     @NotBlank
     private String code;
+
+    @ApiModelProperty(value = "Redirect Url")
+    @NotBlank
+    private String redirectUrl;
 }

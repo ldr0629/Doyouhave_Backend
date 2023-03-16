@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Transactional
@@ -175,6 +176,7 @@ public class PostService {
     public void markPost(Long postId, Long userId) {
         User user =  userRepository.findById(userId).orElseThrow();
         Post markedPost = postRepository.findById(postId).orElseThrow();
+        LocalDateTime originPostTime = markedPost.getCreatedDate();
 
         UserLikes userLikes = UserLikes.builder()
                                         .markedUser(user)
@@ -183,12 +185,14 @@ public class PostService {
         userLikes.setUser(user);
         userLikes.setPost(markedPost);
         userLikesRepository.save(userLikes);
+        markedPost.setCreatedDate(originPostTime);
     }
 
     /* 북마크 제거 */
     public void markDeletePost(Long postId, Long userId) {
         UserLikes deleteMark = userLikesRepository.findNotOptionalByUserIdAndPostId(userId, postId);
         deleteMark.deleteUserAndPost(userRepository.findById(userId).orElseThrow(), postRepository.findById(postId).orElseThrow());
+
         userLikesRepository.delete(deleteMark);
     }
 

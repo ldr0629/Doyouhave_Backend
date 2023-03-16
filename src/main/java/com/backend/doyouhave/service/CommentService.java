@@ -176,7 +176,7 @@ public class CommentService {
 
     public void reportedComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(NotFoundException::new);
-        comment.setReportedCount(comment.getReportedCount() + 1);
+        comment.setReportedCount(comment.getReportedCount() + 1L);
 
         commentRepository.save(comment);
     }

@@ -43,12 +43,12 @@ public class CloudManager {
         try {
             if(uploadFile != null) {
                 String newFileName = getFileUrlByUpload(folderName, uploadFile);
-                savedPost.setImg("http://res.cloudinary.com/do-you-have/image/upload/Post_"+folderName+"/"+newFileName+".jpg");
+                savedPost.setImg("https://res.cloudinary.com/do-you-have/image/upload/Post_"+folderName+"/"+newFileName+".jpg");
             }
 
             if(uploadFileSecond != null) {
                 String newFileNameSecond = getFileUrlByUpload(folderName, uploadFileSecond);
-                savedPost.setImgSecond("http://res.cloudinary.com/do-you-have/image/upload/Post_"+folderName+"/"+newFileNameSecond+".jpg");
+                savedPost.setImgSecond("https://res.cloudinary.com/do-you-have/image/upload/Post_"+folderName+"/"+newFileNameSecond+".jpg");
             }
         } catch(IOException e) {
             e.printStackTrace();

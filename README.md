@@ -6,7 +6,59 @@
 
 </div>
 
+### [프로젝트 기획 및 소개 : notion 참고](https://www.notion.so/6eac0cd82304465f840876831e9e3782?pvs=4) <br>
+### [주소 : doyouhave.netlify.app](https://doyouhave.netlify.app/) <br>
+<hr>
 
+<img src="https://user-images.githubusercontent.com/76730470/227483827-37e920ab-fb36-434f-ba70-939d510241a1.JPG" width="800" height="400">
+
+## 📜 사용 스택
+### Front-end
+Built with
+
+- React.js
+
+Modules
+
+- React Query: Server-client state management
+
+Design System
+
+- Figma
+
+### Back-end
+
+- Java
+- Spring-Boot, Spring Data JPA, Spring Security
+- PostgreSQL
+
+### DevOps & Tools
+
+- Naver Cloud Platform
+- Swagger, Postman
+<hr>
+
+## 📅 개발 기간
+
+<b>2023.01.18 ~ 2023.03.24</b> <br>
+실 개발 : 1~2개월
+
+## DB 설계
+
+<img src="https://user-images.githubusercontent.com/76730470/227489840-b5d76fc6-63c4-4741-8fb7-fb0fee06f564.JPG" width="800" height="400">
+
+<hr>
+
+## 담당 개발 내용
+
+- 프로젝트 기능 일부 기획
+- 전단지 관련 도메인 및 DB 설계
+- 클라우디너리 API를 활용한 전단지 등록, 수정, 삭제 기능 구현
+- 전단지 골목 페이지 API 구현 (카테고리 및 태그별 조회 API, 검색 API)
+- 북마크 API 구현
+- 회원 마이페이지 최근 알림, 내 전단지, 내 북마크 API 구현 
+- 네이버 클라우드 플랫폼 서버 일부분 세팅 및 구축
+<hr>
 
 ## ✍️CONVENTION✍️
 
